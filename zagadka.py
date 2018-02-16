@@ -69,7 +69,7 @@ Breakers = 0
 # czas
 dni = 0
 
-iloscZmian = 2
+iloscZmian = 1000
 
 for x in range(iloscZmian):
 	time = 0
@@ -98,8 +98,6 @@ for x in range(iloscZmian):
 		timetableRow[4] = abs(timetable[-1][4] - 1)	
 			
 		timetable.append(timetableRow)
-		# dirty way of showing this
-		# print(timetableRow)
 
 	dni += 1
 
@@ -139,18 +137,21 @@ plt.xlabel('numer zmiany produkcyjnej')
 
 plt.show()
 
-plt.step(timetable_x,timetable[:,0])
-plt.step(timetable_x,timetable[:,1]+1.5)
-plt.step(timetable_x,timetable[:,2]+3)
-plt.step(timetable_x,timetable[:,3]+4.5)
-plt.step(timetable_x,timetable[:,4]+6)
+if timetable_x.shape[0] < 200:
+	plt.step(timetable_x,timetable[:,0], label='S1')
+	plt.step(timetable_x,timetable[:,1]+1.5, label='S2')
+	plt.step(timetable_x,timetable[:,2]+3, label='S3')
+	plt.step(timetable_x,timetable[:,3]+4.5, label='PO')
+	plt.step(timetable_x,timetable[:,4]+6, label='takt')
 
-plt.show()
+	plt.xticks(timetable_x, rotation='vertical', fontsize=1000/timetable_x.shape[0])
+	plt.grid(axis='x', color='black', linestyle='-', linewidth=1, alpha=0.3)
+	plt.legend()
+	plt.show()
 
-# wywalenie wstepnych zer
 
 print('Report, dni: {}, zmian: {}'.format(dni / 2, dni))
-print('Total breakers: {}'.format(Breakers))
+print('Wyprodukowanych wyłączników: {}'.format(Breakers))
 print('Testów w stacji 1: {}'.format(S1.output))
 print('Testów w stacji 2: {}'.format(S2.output))
 print('Testów w stacji 3: {}'.format(S3.output))
@@ -162,3 +163,8 @@ print('tester 2 pusty: {}'.format(S2.free))
 print('tester 3 pusty: {}'.format(S3.free))
 
 print('Procent aparatów z {} zmian na polu odkładczym: {}%'.format(round(dni / 2), 100*PO/Breakers))
+
+print('Podział testów w stacji 1: A:{:.2f}% B:{:.2f}% C:{:.2f}%'.format(100*S1.testType[0] / S1.output, 100*S1.testType[1] / S1.output, 100*S1.testType[2] / S1.output))
+print('Podział testów w stacji 2: A:{:.2f}% B:{:.2f}% C:{:.2f}%'.format(100*S2.testType[0] / S2.output, 100*S2.testType[1] / S2.output, 100*S2.testType[2] / S2.output))
+print('Podział testów w stacji 3: A:{:.2f}% B:{:.2f}% C:{:.2f}%'.format(100*S3.testType[0] / S3.output, 100*S3.testType[1] / S3.output, 100*S3.testType[2] / S3.output))
+
