@@ -56,6 +56,8 @@ class Stanowisko:
 S1 = Stanowisko()
 S2 = Stanowisko()
 S3 = Stanowisko()
+S4 = Stanowisko()
+S5 = Stanowisko()
 
 # Pole odkładcze
 PO = 0
@@ -69,7 +71,7 @@ Breakers = 0
 # czas
 dni = 0
 
-iloscZmian = 100000
+iloscZmian = 1000
 
 for x in range(iloscZmian):
 	time = 0
@@ -82,18 +84,22 @@ for x in range(iloscZmian):
 		S1.update(time)
 		S2.update(time)
 		S3.update(time)
+		S4.update(time)
+		S5.update(time)
 
 		if not S1.Test(time):
 			if not S2.Test(time):
 				if not S3.Test(time):
-					PO += 1
-					timetableRow[3] = 1
-				else:
-					timetableRow[2] = 1
-			else:
-				timetableRow[1] = 1
-		else:
-			timetableRow[0] = 1
+					if not S4.Test(time):
+						if not S5.Test(time):
+							PO += 1
+		# 			timetableRow[3] = 1
+		# 		else:
+		# 			timetableRow[2] = 1
+		# 	else:
+		# 		timetableRow[1] = 1
+		# else:
+		# 	timetableRow[0] = 1
 
 		timetableRow[4] = abs(timetable[-1][4] - 1)	
 			
